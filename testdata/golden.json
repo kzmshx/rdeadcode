@@ -1,7 +1,7 @@
 [
   {
     "Name": "main",
-    "Path": "github.com/yyoshiki41/rdeadcode",
+    "Path": "github.com/yyoshiki41/rdeadcode/testdata",
     "Funcs": [
       {
         "Name": "Unreachable",
@@ -13,10 +13,19 @@
         "Generated": false
       },
       {
+        "Name": "UnreachableGeneric",
+        "Position": {
+          "File": "testdata/main.go",
+          "Line": 25,
+          "Col": 6
+        },
+        "Generated": false
+      },
+      {
         "Name": "UnusedImportStatementRemoval",
         "Position": {
           "File": "testdata/main.go",
-          "Line": 29,
+          "Line": 33,
           "Col": 6
         },
         "Generated": false
@@ -25,7 +34,7 @@
         "Name": "myString.String",
         "Position": {
           "File": "testdata/main.go",
-          "Line": 40,
+          "Line": 44,
           "Col": 19
         },
         "Generated": false
@@ -34,8 +43,26 @@
         "Name": "myString.Unreachable",
         "Position": {
           "File": "testdata/main.go",
-          "Line": 48,
+          "Line": 52,
           "Col": 20
+        },
+        "Generated": false
+      },
+      {
+        "Name": "myGenericStruct.Value",
+        "Position": {
+          "File": "testdata/main.go",
+          "Line": 60,
+          "Col": 29
+        },
+        "Generated": false
+      },
+      {
+        "Name": "myGenericStruct.Unreachable",
+        "Position": {
+          "File": "testdata/main.go",
+          "Line": 64,
+          "Col": 30
         },
         "Generated": false
       }

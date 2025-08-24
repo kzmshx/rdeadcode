@@ -8,6 +8,10 @@ func Reachable() {
 	fmt.Println("reachable")
 }
 
+func UnreachableGeneric[T comparable](a T) {
+	fmt.Println(a)
+}
+
 type myString struct {
 	Value string
 }
@@ -17,5 +21,17 @@ func (s myString) String() string {
 }
 
 func (s *myString) Unreachable() {
+	return
+}
+
+type myGenericStruct[T any] struct {
+	value T
+}
+
+func (gs myGenericStruct[T]) Value() T {
+	return gs.value
+}
+
+func (gs *myGenericStruct[T]) Unreachable() {
 	return
 }

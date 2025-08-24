@@ -14,8 +14,11 @@ func TestLookup(t *testing.T) {
 		err                    error
 	}{
 		{"testdata/lookup.txt", "Reachable", 7, 9, nil},
-		{"testdata/lookup.txt", "myString.String", 15, 17, nil},
-		{"testdata/lookup.txt", "myString.Unreachable", 19, 21, nil},
+		{"testdata/lookup.txt", "UnreachableGeneric", 11, 13, nil},
+		{"testdata/lookup.txt", "myString.String", 19, 21, nil},
+		{"testdata/lookup.txt", "myString.Unreachable", 23, 25, nil},
+		{"testdata/lookup.txt", "myGenericStruct.Value", 31, 33, nil},
+		{"testdata/lookup.txt", "myGenericStruct.Unreachable", 35, 37, nil},
 		{"testdata/lookup.txt", "NotFound", 0, 0, ErrFuncNotFound},
 	}
 

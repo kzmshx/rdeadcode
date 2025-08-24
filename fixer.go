@@ -56,15 +56,8 @@ func lookup(filename, functionName string) (int, int, error) {
 			if len(funcParts) == 2 && t.Recv != nil {
 				// handle method
 				for _, field := range t.Recv.List {
-					var ident *ast.Ident
-					switch field.Type.(type) {
-					case *ast.Ident:
-						ident = field.Type.(*ast.Ident)
-					case *ast.StarExpr:
-						ident = field.Type.(*ast.StarExpr).X.(*ast.Ident)
-					}
-					if ident != nil && ident.Name == funcParts[0] &&
-						t.Name.Name == funcParts[1] {
+					typeName := extractReceiverTypeName(field.Type)
+					if typeName == funcParts[0] && t.Name.Name == funcParts[1] {
 						start = fset.Position(t.Pos()).Line
 						end = fset.Position(t.End()).Line
 						return false
@@ -85,6 +78,33 @@ func lookup(filename, functionName string) (int, int, error) {
 		return 0, 0, fmt.Errorf("%w, func %s in %s", ErrFuncNotFound, functionName, filename)
 	}
 	return start, end, nil
+}
+
+func extractReceiverTypeName(expr ast.Expr) string {
+	switch t := expr.(type) {
+	case *ast.Ident:
+		// Type
+		return t.Name
+	case *ast.StarExpr:
+		// *Type, **Type, etc.
+		return extractReceiverTypeName(t.X)
+	case *ast.SelectorExpr:
+		// pkg.Type
+		return t.Sel.Name
+	case *ast.ArrayType:
+		// []Type or [n]Type
+		return extractReceiverTypeName(t.Elt)
+	case *ast.MapType:
+		// (Unsupported) map[K]V
+		return ""
+	case *ast.IndexExpr:
+		// Type[T]
+		return extractReceiverTypeName(t.X)
+	case *ast.IndexListExpr:
+		// Type[T, U]
+		return extractReceiverTypeName(t.X)
+	}
+	return ""
 }
 
 func replaceLines(filename string, start, end int) error {
